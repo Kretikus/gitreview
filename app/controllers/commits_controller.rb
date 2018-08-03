@@ -5,7 +5,8 @@ class CommitsController < ApplicationController
   before_action :set_commit, only: [:show, :edit, :update, :destroy]
 
   def initialize
-    @repo = Rugged::Repository.new('/Users/roman/rails/ZBar')
+    logger.info "Using git repo: #{Rails.application.config.git_path}" 
+	@repo = Rugged::Repository.new(Rails.application.config.git_path)
   end
 
   # GET /commits
@@ -40,19 +41,17 @@ class CommitsController < ApplicationController
   def create
     @commit = Commit.new
 
-#    repo = Rugged::Repository.new('/Users/roman/rails/ZBar')
-#
-#    walker = Rugged::Walker.new(repo)
-#
-#    walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_REVERSE) # optional
-#
-#    walker.push('HEAD')
-#    walker.each { |c| 
-#      @commit = Commit.new(sha: c.oid, description:c.message,
-#                           author: c.author[:name], commit_date: c.author[:time])
-#      @commit.save
-#    }
-#    walker.reset
+    #walker = Rugged::Walker.new(@repo)
+    #
+    #walker.sorting(Rugged::SORT_TOPO | Rugged::SORT_REVERSE) # optional
+    #
+    #walker.push('HEAD')
+    #walker.each { |c| 
+    #  @commit = Commit.new(sha: c.oid, description:c.message,
+    #                       author: c.author[:name], commit_date: c.author[:time])
+    #  @commit.save
+    #}
+    #walker.reset
 
     respond_to do |format|
         format.html { redirect_to @commit, notice: 'Commit was successfully created.' }
