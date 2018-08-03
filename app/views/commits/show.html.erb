@@ -1,3 +1,5 @@
+# encoding: utf-8
+<% provide(:title, 'Commits') %>
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -20,5 +22,18 @@
   <%= @commit.commit_date %>
 </p>
 
+
+<p>
+  <pre>
+    <code id="commit">
+    </code>
+  </pre>
+</p>
+
 <%= link_to 'Edit', edit_commit_path(@commit) %> |
 <%= link_to 'Back', commits_path %>
+
+<script type="text/javascript">
+  var test_var = "<%= escape_javascript @test_var %>";
+  show_patch('#commit', test_var);
+</script>

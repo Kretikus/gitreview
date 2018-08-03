@@ -1,7 +1,12 @@
 require 'rugged'
+require 'iconv'
 
 class CommitsController < ApplicationController
   before_action :set_commit, only: [:show, :edit, :update, :destroy]
+
+  def initialize
+    @repo = Rugged::Repository.new('/Users/roman/rails/ZBar')
+  end
 
   # GET /commits
   # GET /commits.json
@@ -12,6 +17,13 @@ class CommitsController < ApplicationController
   # GET /commits/1
   # GET /commits/1.json
   def show
+    @test_var = ""
+    commit = @repo.lookup(@commit.sha)
+    if commit.parents.length > 0
+      diff_commits = commit.parents[0].diff(commit, :context_lines => 100000000)
+      @test_var = Iconv.conv('utf-8', 'latin1', diff_commits.patch())
+    end
+    render :layout => 'application'
   end
 
   # GET /commits/new
